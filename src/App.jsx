@@ -4,6 +4,7 @@ import { produtos, categorias } from "./data/produtos";
 import Header from "./components/Header";
 import CardProduto from "./components/Cardproduto";
 import Carrinho from "./components/Carrinho";
+import Footer from "./components/Footer";
 
 export default function App() {
   const [carrinho, setCarrinho] = useState([]); // [{ ...produto, quantidade }]
@@ -145,6 +146,9 @@ export default function App() {
           onLimpar={limparCarrinho}
         />
       )}
+      
+      <Footer />
     </div>
+    
   );
 }
