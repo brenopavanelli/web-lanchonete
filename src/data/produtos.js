@@ -17,7 +17,7 @@ export const produtos = [
     descricao: "Massa crocante recheada com frango desfiado temperado e catupiry.",
     preco: 6.0,
     categoria: "Salgados Fritos",
-    imageUrl: "https://images.unsplash.com/photo-1620697561213-778d0e1e5498?w=400&q=80",
+    imageUrl: "/images/produtos/coxinha-de-frango.jpg",
     disponivel: true,
   },
   {
@@ -26,7 +26,7 @@ export const produtos = [
     descricao: "Quibe crocante por fora, macio por dentro, com recheio especial da casa.",
     preco: 5.5,
     categoria: "Salgados Fritos",
-    imageUrl: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&q=80",
+    imageUrl: "/images/produtos/quibe-frito.jpg",
     disponivel: true,
   },
   {
@@ -35,7 +35,7 @@ export const produtos = [
     descricao: "Massa leve enrolada em salsicha, douradinha na medida certa.",
     preco: 5.0,
     categoria: "Salgados Fritos",
-    imageUrl: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&q=80",
+    imageUrl: "/images/produtos/enroladinho-de-salsicha.jpg",
     disponivel: true,
   },
   {
@@ -44,7 +44,7 @@ export const produtos = [
     descricao: "Tradicional pão de queijo mineiro, quentinho e sequinho.",
     preco: 4.5,
     categoria: "Salgados Assados",
-    imageUrl: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80",
+    imageUrl: "/images/produtos/pao-de-queijo.jpg",
     disponivel: true,
   },
   {
@@ -53,7 +53,7 @@ export const produtos = [
     descricao: "Empada assada com recheio cremoso de frango com ervilha.",
     preco: 7.0,
     categoria: "Salgados Assados",
-    imageUrl: "https://images.unsplash.com/photo-1565299715199-866c917206bb?w=400&q=80",
+    imageUrl: "/images/produtos/empada-de-frango.jpg",
     disponivel: true,
   },
   {
@@ -62,7 +62,7 @@ export const produtos = [
     descricao: "Esfiha aberta com carne temperada, cebola e tomate.",
     preco: 6.5,
     categoria: "Salgados Assados",
-    imageUrl: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400&q=80",
+    imageUrl: "/images/produtos/esfiha-de-carne.jpg",
     disponivel: true,
   },
   {
@@ -71,7 +71,7 @@ export const produtos = [
     descricao: "Pão francês tostado com presunto e queijo derretido.",
     preco: 10.0,
     categoria: "Lanches",
-    imageUrl: "https://images.unsplash.com/photo-1528736235302-52922df5c122?w=400&q=80",
+    imageUrl: "/images/produtos/misto-quente.jpg",
     disponivel: true,
   },
   {
@@ -80,7 +80,7 @@ export const produtos = [
     descricao: "Clássico pão com rosbife, queijo derretido, tomate e pepino.",
     preco: 14.0,
     categoria: "Lanches",
-    imageUrl: "https://images.unsplash.com/photo-1539252554453-80ab65ce3586?w=400&q=80",
+    imageUrl: "/images/produtos/bauru.jpg",
     disponivel: true,
   },
   {
@@ -89,7 +89,7 @@ export const produtos = [
     descricao: "Suco natural de laranja espremido na hora. 300ml.", 
     preco: 8.0,
     categoria: "Bebidas",
-    imageUrl: "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=400&q=80",
+    imageUrl: "/images/produtos/suco-de-laranja.jpg",
     disponivel: true,
   },
   {
@@ -98,7 +98,7 @@ export const produtos = [
     descricao: "Café fresquinho com leite quentinho. Combinação perfeita.",
     preco: 6.0,
     categoria: "Bebidas",
-    imageUrl: "https://images.unsplash.com/photo-1561882468-9110e03e0f78?w=400&q=80",
+    imageUrl: "/images/produtos/cafe-com-leite.jpg",
     disponivel: true,
   },
 ];
