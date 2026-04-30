@@ -1,9 +1,6 @@
-// src/components/Carrinho.jsx
 import { useState } from "react";
 
-// ⚙️ Altere para o número real do WhatsApp da lanchonete
-// Formato: código do país + DDD + número (sem espaços ou símbolos)
-const WHATSAPP_NUMBER = "5511999999999";
+const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER;
 
 const FORMAS_PAGAMENTO = [
   { value: "pix",      label: "Pix",               emoji: "💠" },
