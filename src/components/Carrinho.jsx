@@ -84,6 +84,7 @@ export default function Carrinho({ itens, onFechar, onAdicionar, onRemover, onLi
     return !Object.values(novosErros).some(Boolean);
   }
 
+  console.log('Número:', import.meta.env.VITE_WHATSAPP_NUMBER);
   function enviarWhatsApp() {
     if (itens.length === 0) return;
     if (!validar()) return;
