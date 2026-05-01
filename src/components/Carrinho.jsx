@@ -3,21 +3,23 @@ import { useState } from "react";
 const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER;
 
 const FORMAS_PAGAMENTO = [
-  { value: "pix",      label: "Pix",               emoji: "💠" },
-  { value: "debito",   label: "Cartão de Débito",   emoji: "💳" },
-  { value: "credito",  label: "Cartão de Crédito",  emoji: "💳" },
-  { value: "dinheiro", label: "Dinheiro",            emoji: "💵" },
+  { value: "pix", label: "Pix", emoji: "💠" },
+  { value: "debito", label: "Cartão de Débito", emoji: "💳" },
+  { value: "credito", label: "Cartão de Crédito", emoji: "💳" },
+  { value: "dinheiro", label: "Dinheiro", emoji: "💵" },
 ];
 
 const ENDERECO_INICIAL = { cep: "", rua: "", numero: "", bairro: "" };
 
-function formatarMensagem(itens, total, endereco, pagamento) {
+function formatarMensagem(itens, total, endereco, pagamento, observacoes) {
   const linhaItens = itens
     .map(
       (item) =>
-        `• ${item.quantidade}x ${item.nome} — R$ ${(item.preco * item.quantidade)
+        `• ${item.quantidade}x ${item.nome} — R$ ${(
+          item.preco * item.quantidade
+        )
           .toFixed(2)
-          .replace(".", ",")}`
+          .replace(".", ",")}`,
     )
     .join("\n");
 
@@ -29,6 +31,7 @@ function formatarMensagem(itens, total, endereco, pagamento) {
     `${linhaItens}\n\n` +
     `━━━━━━━━━━━━━━\n` +
     `*Total: R$ ${total.toFixed(2).replace(".", ",")}*\n\n` +
+    (observacoes.trim() ? `📝 *Observações:* ${observacoes}\n\n` : "") +
     `📍 *Endereço de Entrega*\n` +
     `CEP: ${endereco.cep}\n` +
     `Rua: ${endereco.rua}, nº ${endereco.numero}\n` +
@@ -39,10 +42,21 @@ function formatarMensagem(itens, total, endereco, pagamento) {
 }
 
 // Campo reutilizável
-function Campo({ label, id, placeholder, value, onChange, type = "text", maxLength }) {
+function Campo({
+  label,
+  id,
+  placeholder,
+  value,
+  onChange,
+  type = "text",
+  maxLength,
+}) {
   return (
     <div className="flex flex-col gap-1">
-      <label htmlFor={id} className="font-body text-xs font-semibold text-salgado-dark uppercase tracking-wide">
+      <label
+        htmlFor={id}
+        className="font-body text-xs font-semibold text-salgado-dark uppercase tracking-wide"
+      >
         {label}
       </label>
       <input
@@ -58,12 +72,22 @@ function Campo({ label, id, placeholder, value, onChange, type = "text", maxLeng
   );
 }
 
-export default function Carrinho({ itens, onFechar, onAdicionar, onRemover, onLimpar }) {
+export default function Carrinho({
+  itens,
+  onFechar,
+  onAdicionar,
+  onRemover,
+  onLimpar,
+}) {
+  const [observacoes, setObservacao] = useState("");
   const [endereco, setEndereco] = useState(ENDERECO_INICIAL);
   const [pagamento, setPagamento] = useState("");
   const [erros, setErros] = useState({});
 
-  const total = itens.reduce((acc, item) => acc + item.preco * item.quantidade, 0);
+  const total = itens.reduce(
+    (acc, item) => acc + item.preco * item.quantidade,
+    0,
+  );
   const totalItens = itens.reduce((acc, item) => acc + item.quantidade, 0);
 
   function setcampo(campo, valor) {
@@ -74,10 +98,10 @@ export default function Carrinho({ itens, onFechar, onAdicionar, onRemover, onLi
 
   function validar() {
     const novosErros = {
-      cep:      !endereco.cep.trim(),
-      rua:      !endereco.rua.trim(),
-      numero:   !endereco.numero.trim(),
-      bairro:   !endereco.bairro.trim(),
+      cep: !endereco.cep.trim(),
+      rua: !endereco.rua.trim(),
+      numero: !endereco.numero.trim(),
+      bairro: !endereco.bairro.trim(),
       pagamento: !pagamento,
     };
     setErros(novosErros);
@@ -87,7 +111,13 @@ export default function Carrinho({ itens, onFechar, onAdicionar, onRemover, onLi
   function enviarWhatsApp() {
     if (itens.length === 0) return;
     if (!validar()) return;
-    const mensagem = formatarMensagem(itens, total, endereco, pagamento);
+    const mensagem = formatarMensagem(
+      itens,
+      total,
+      endereco,
+      pagamento,
+      observacoes,
+    );
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`;
     window.open(url, "_blank");
   }
@@ -102,7 +132,6 @@ export default function Carrinho({ itens, onFechar, onAdicionar, onRemover, onLi
 
       {/* Painel lateral */}
       <div className="fixed top-0 right-0 h-full w-full max-w-sm bg-salgado-light z-50 shadow-2xl flex flex-col bounce-in">
-
         {/* Topo */}
         <div className="bg-salgado-dark px-5 py-4 flex items-center justify-between flex-shrink-0">
           <div>
@@ -125,14 +154,17 @@ export default function Carrinho({ itens, onFechar, onAdicionar, onRemover, onLi
 
         {/* Conteúdo scrollável */}
         <div className="flex-1 overflow-y-auto">
-
           {/* Lista de itens */}
           <div className="px-4 py-4 space-y-3">
             {itens.length === 0 ? (
               <div className="flex flex-col items-center justify-center text-center gap-3 text-gray-400 py-16">
                 <span className="text-6xl">🧺</span>
-                <p className="font-body font-semibold text-lg">Carrinho vazio</p>
-                <p className="font-body text-sm">Adicione salgados deliciosos!</p>
+                <p className="font-body font-semibold text-lg">
+                  Carrinho vazio
+                </p>
+                <p className="font-body text-sm">
+                  Adicione salgados deliciosos!
+                </p>
               </div>
             ) : (
               itens.map((item) => (
@@ -150,7 +182,10 @@ export default function Carrinho({ itens, onFechar, onAdicionar, onRemover, onLi
                       {item.nome}
                     </p>
                     <p className="font-body text-salgado-deep font-semibold text-sm">
-                      R$ {(item.preco * item.quantidade).toFixed(2).replace(".", ",")}
+                      R${" "}
+                      {(item.preco * item.quantidade)
+                        .toFixed(2)
+                        .replace(".", ",")}
                     </p>
                   </div>
                   <div className="flex items-center gap-1.5 bg-salgado-warm rounded-full px-1.5 py-1">
@@ -178,6 +213,19 @@ export default function Carrinho({ itens, onFechar, onAdicionar, onRemover, onLi
           {/* Formulário — só aparece quando há itens */}
           {itens.length > 0 && (
             <div className="px-4 pb-4 space-y-5">
+              {/* Observações */}
+              <div className="flex flex-col gap-1">
+                <label className="font-body text-xs font-semibold text-salgado-dark uppercase tracking-wide">
+                  Observações
+                </label>
+                <textarea
+                  placeholder="Alguma observação sobre o seu pedido?"
+                  value={observacoes}
+                  onChange={(e) => setObservacao(e.target.value)}
+                  className="w-full px-3 py-2 rounded-lg border-2 font-body text-sm text-salgado-dark placeholder-gray-300 transition-colors focus:outline-none bg-white border-salgado-warm focus:border-brand-400"
+                  rows={3}
+                />
+              </div>
 
               {/* Endereço */}
               <div className="bg-white rounded-2xl border border-salgado-warm p-4 shadow-sm space-y-3">
@@ -197,10 +245,16 @@ export default function Carrinho({ itens, onFechar, onAdicionar, onRemover, onLi
                     onChange={(e) => setcampo("cep", e.target.value)}
                     maxLength={9}
                     className={`w-full px-3 py-2 rounded-lg border-2 font-body text-sm text-salgado-dark placeholder-gray-300 transition-colors focus:outline-none bg-white ${
-                      erros.cep ? "border-red-400 focus:border-red-400" : "border-salgado-warm focus:border-brand-400"
+                      erros.cep
+                        ? "border-red-400 focus:border-red-400"
+                        : "border-salgado-warm focus:border-brand-400"
                     }`}
                   />
-                  {erros.cep && <p className="text-red-500 text-xs font-body">Campo obrigatório</p>}
+                  {erros.cep && (
+                    <p className="text-red-500 text-xs font-body">
+                      Campo obrigatório
+                    </p>
+                  )}
                 </div>
 
                 {/* Rua */}
@@ -214,10 +268,16 @@ export default function Carrinho({ itens, onFechar, onAdicionar, onRemover, onLi
                     value={endereco.rua}
                     onChange={(e) => setcampo("rua", e.target.value)}
                     className={`w-full px-3 py-2 rounded-lg border-2 font-body text-sm text-salgado-dark placeholder-gray-300 transition-colors focus:outline-none bg-white ${
-                      erros.rua ? "border-red-400 focus:border-red-400" : "border-salgado-warm focus:border-brand-400"
+                      erros.rua
+                        ? "border-red-400 focus:border-red-400"
+                        : "border-salgado-warm focus:border-brand-400"
                     }`}
                   />
-                  {erros.rua && <p className="text-red-500 text-xs font-body">Campo obrigatório</p>}
+                  {erros.rua && (
+                    <p className="text-red-500 text-xs font-body">
+                      Campo obrigatório
+                    </p>
+                  )}
                 </div>
 
                 {/* Número + Bairro lado a lado */}
@@ -233,10 +293,16 @@ export default function Carrinho({ itens, onFechar, onAdicionar, onRemover, onLi
                       onChange={(e) => setcampo("numero", e.target.value)}
                       maxLength={10}
                       className={`w-full px-3 py-2 rounded-lg border-2 font-body text-sm text-salgado-dark placeholder-gray-300 transition-colors focus:outline-none bg-white ${
-                        erros.numero ? "border-red-400 focus:border-red-400" : "border-salgado-warm focus:border-brand-400"
+                        erros.numero
+                          ? "border-red-400 focus:border-red-400"
+                          : "border-salgado-warm focus:border-brand-400"
                       }`}
                     />
-                    {erros.numero && <p className="text-red-500 text-xs font-body">Obrigatório</p>}
+                    {erros.numero && (
+                      <p className="text-red-500 text-xs font-body">
+                        Obrigatório
+                      </p>
+                    )}
                   </div>
 
                   <div className="flex flex-col gap-1">
@@ -249,10 +315,16 @@ export default function Carrinho({ itens, onFechar, onAdicionar, onRemover, onLi
                       value={endereco.bairro}
                       onChange={(e) => setcampo("bairro", e.target.value)}
                       className={`w-full px-3 py-2 rounded-lg border-2 font-body text-sm text-salgado-dark placeholder-gray-300 transition-colors focus:outline-none bg-white ${
-                        erros.bairro ? "border-red-400 focus:border-red-400" : "border-salgado-warm focus:border-brand-400"
+                        erros.bairro
+                          ? "border-red-400 focus:border-red-400"
+                          : "border-salgado-warm focus:border-brand-400"
                       }`}
                     />
-                    {erros.bairro && <p className="text-red-500 text-xs font-body">Obrigatório</p>}
+                    {erros.bairro && (
+                      <p className="text-red-500 text-xs font-body">
+                        Obrigatório
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -269,14 +341,15 @@ export default function Carrinho({ itens, onFechar, onAdicionar, onRemover, onLi
                       key={forma.value}
                       onClick={() => {
                         setPagamento(forma.value);
-                        if (erros.pagamento) setErros((prev) => ({ ...prev, pagamento: false }));
+                        if (erros.pagamento)
+                          setErros((prev) => ({ ...prev, pagamento: false }));
                       }}
                       className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border-2 font-body text-sm font-semibold transition-all active:scale-95 ${
                         pagamento === forma.value
                           ? "border-brand-500 bg-brand-50 text-brand-700"
                           : erros.pagamento
-                          ? "border-red-300 text-gray-500 hover:border-brand-300"
-                          : "border-salgado-warm text-gray-500 hover:border-brand-300"
+                            ? "border-red-300 text-gray-500 hover:border-brand-300"
+                            : "border-salgado-warm text-gray-500 hover:border-brand-300"
                       }`}
                     >
                       <span>{forma.emoji}</span>
@@ -285,10 +358,11 @@ export default function Carrinho({ itens, onFechar, onAdicionar, onRemover, onLi
                   ))}
                 </div>
                 {erros.pagamento && (
-                  <p className="text-red-500 text-xs font-body">Selecione uma forma de pagamento</p>
+                  <p className="text-red-500 text-xs font-body">
+                    Selecione uma forma de pagamento
+                  </p>
                 )}
               </div>
-
             </div>
           )}
         </div>
@@ -297,7 +371,9 @@ export default function Carrinho({ itens, onFechar, onAdicionar, onRemover, onLi
         {itens.length > 0 && (
           <div className="border-t border-salgado-warm px-5 py-4 bg-white space-y-3 flex-shrink-0">
             <div className="flex items-center justify-between">
-              <span className="font-body font-semibold text-gray-500">Total</span>
+              <span className="font-body font-semibold text-gray-500">
+                Total
+              </span>
               <span className="font-display font-bold text-salgado-dark text-2xl">
                 R$ {total.toFixed(2).replace(".", ",")}
               </span>
