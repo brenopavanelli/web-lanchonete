@@ -11,7 +11,7 @@ const FORMAS_PAGAMENTO = [
 
 const ENDERECO_INICIAL = { cep: "", rua: "", numero: "", bairro: "" };
 
-function formatarMensagem(itens, total, endereco, pagamento, observacoes) {
+function formatarMensagem(itens, total, endereco, pagamento, observacoes, tipoEntrega) {
   const linhaItens = itens
     .map(
       (item) =>
@@ -32,10 +32,12 @@ function formatarMensagem(itens, total, endereco, pagamento, observacoes) {
     `━━━━━━━━━━━━━━\n` +
     `*Total: R$ ${total.toFixed(2).replace(".", ",")}*\n\n` +
     (observacoes.trim() ? `📝 *Observações:* ${observacoes}\n\n` : "") +
-    `📍 *Endereço de Entrega*\n` +
-    `CEP: ${endereco.cep}\n` +
-    `Rua: ${endereco.rua}, nº ${endereco.numero}\n` +
-    `Bairro: ${endereco.bairro}\n\n` +
+    (tipoEntrega === "entrega"
+      ? `📍 *Endereço de Entrega*\n` +
+        `CEP: ${endereco.cep}\n` +
+        `Rua: ${endereco.rua}, nº ${endereco.numero}\n` +
+        `Bairro: ${endereco.bairro}\n\n`
+      : `🏃 *Retirada no local*\n\n`) +
     `💰 *Forma de Pagamento:* ${pagamentoLabel}\n\n` +
     `Por favor, confirme meu pedido! 😊`
   );
@@ -80,6 +82,7 @@ export default function Carrinho({
   onLimpar,
 }) {
   const [observacoes, setObservacao] = useState("");
+  const [tipoEntrega, setTipoEntrega] = useState("");
   const [endereco, setEndereco] = useState(ENDERECO_INICIAL);
   const [pagamento, setPagamento] = useState("");
   const [erros, setErros] = useState({});
@@ -98,10 +101,10 @@ export default function Carrinho({
 
   function validar() {
     const novosErros = {
-      cep: !endereco.cep.trim(),
-      rua: !endereco.rua.trim(),
-      numero: !endereco.numero.trim(),
-      bairro: !endereco.bairro.trim(),
+      cep: tipoEntrega === "entregar" && !endereco.cep.trim(),
+      rua: tipoEntrega === "entregar" && !endereco.rua.trim(),
+      numero: tipoEntrega === "entregar" && !endereco.numero.trim(),
+      bairro: tipoEntrega === "entregar" && !endereco.bairro.trim(),
       pagamento: !pagamento,
     };
     setErros(novosErros);
@@ -117,6 +120,7 @@ export default function Carrinho({
       endereco,
       pagamento,
       observacoes,
+      tipoEntrega,
     );
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`;
     window.open(url, "_blank");
@@ -227,107 +231,138 @@ export default function Carrinho({
                 />
               </div>
 
-              {/* Endereço */}
-              <div className="bg-white rounded-2xl border border-salgado-warm p-4 shadow-sm space-y-3">
-                <h3 className="font-display font-bold text-salgado-dark text-base flex items-center gap-2">
-                  📍 Endereço de Entrega
-                </h3>
-
-                {/* CEP */}
-                <div className="flex flex-col gap-1">
-                  <label className="font-body text-xs font-semibold text-salgado-dark uppercase tracking-wide">
-                    CEP
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="00000-000"
-                    value={endereco.cep}
-                    onChange={(e) => setcampo("cep", e.target.value)}
-                    maxLength={9}
-                    className={`w-full px-3 py-2 rounded-lg border-2 font-body text-sm text-salgado-dark placeholder-gray-300 transition-colors focus:outline-none bg-white ${
-                      erros.cep
-                        ? "border-red-400 focus:border-red-400"
-                        : "border-salgado-warm focus:border-brand-400"
+              {/* Tipo de entrega */}
+              <div className="flex flex-col gap-1">
+                <label className="font-body text-xs font-semibold text-salgado-dark uppercase tracking-wide">
+                  Tipo de entrega
+                </label>
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => setTipoEntrega("retirar")}
+                    className={`px-4 py-2 rounded-lg font-body text-sm transition-colors ${
+                      tipoEntrega === "retirar"
+                        ? "bg-brand-500 text-white"
+                        : "bg-salgado-warm text-salgado-dark hover:bg-salgado-light"
                     }`}
-                  />
-                  {erros.cep && (
-                    <p className="text-red-500 text-xs font-body">
-                      Campo obrigatório
-                    </p>
-                  )}
-                </div>
-
-                {/* Rua */}
-                <div className="flex flex-col gap-1">
-                  <label className="font-body text-xs font-semibold text-salgado-dark uppercase tracking-wide">
-                    Rua
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Nome da rua ou avenida"
-                    value={endereco.rua}
-                    onChange={(e) => setcampo("rua", e.target.value)}
-                    className={`w-full px-3 py-2 rounded-lg border-2 font-body text-sm text-salgado-dark placeholder-gray-300 transition-colors focus:outline-none bg-white ${
-                      erros.rua
-                        ? "border-red-400 focus:border-red-400"
-                        : "border-salgado-warm focus:border-brand-400"
+                  >
+                    Retirar no local
+                  </button>
+                  <button
+                    onClick={() => setTipoEntrega("entregar")}
+                    className={`px-4 py-2 rounded-lg font-body text-sm transition-colors ${
+                      tipoEntrega === "entregar"
+                        ? "bg-brand-500 text-white"
+                        : "bg-salgado-warm text-salgado-dark hover:bg-salgado-light"
                     }`}
-                  />
-                  {erros.rua && (
-                    <p className="text-red-500 text-xs font-body">
-                      Campo obrigatório
-                    </p>
-                  )}
-                </div>
-
-                {/* Número + Bairro lado a lado */}
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="flex flex-col gap-1">
-                    <label className="font-body text-xs font-semibold text-salgado-dark uppercase tracking-wide">
-                      Número
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Ex: 123"
-                      value={endereco.numero}
-                      onChange={(e) => setcampo("numero", e.target.value)}
-                      maxLength={10}
-                      className={`w-full px-3 py-2 rounded-lg border-2 font-body text-sm text-salgado-dark placeholder-gray-300 transition-colors focus:outline-none bg-white ${
-                        erros.numero
-                          ? "border-red-400 focus:border-red-400"
-                          : "border-salgado-warm focus:border-brand-400"
-                      }`}
-                    />
-                    {erros.numero && (
-                      <p className="text-red-500 text-xs font-body">
-                        Obrigatório
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="flex flex-col gap-1">
-                    <label className="font-body text-xs font-semibold text-salgado-dark uppercase tracking-wide">
-                      Bairro
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Nome do bairro"
-                      value={endereco.bairro}
-                      onChange={(e) => setcampo("bairro", e.target.value)}
-                      className={`w-full px-3 py-2 rounded-lg border-2 font-body text-sm text-salgado-dark placeholder-gray-300 transition-colors focus:outline-none bg-white ${
-                        erros.bairro
-                          ? "border-red-400 focus:border-red-400"
-                          : "border-salgado-warm focus:border-brand-400"
-                      }`}
-                    />
-                    {erros.bairro && (
-                      <p className="text-red-500 text-xs font-body">
-                        Obrigatório
-                      </p>
-                    )}
-                  </div>
+                  >
+                    Delivery
+                  </button>
                 </div>
               </div>
+
+              {tipoEntrega === "entregar" && (
+                <div className="bg-white rounded-2xl border border-salgado-warm p-4 shadow-sm space-y-3">
+                  {/* Endereço */}
+                  <h3 className="font-display font-bold text-salgado-dark text-base flex items-center gap-2">
+                    📍 Endereço de Entrega
+                  </h3>
+
+                  {/* CEP */}
+                  <div className="flex flex-col gap-1">
+                    <label className="font-body text-xs font-semibold text-salgado-dark uppercase tracking-wide">
+                      CEP
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="00000-000"
+                      value={endereco.cep}
+                      onChange={(e) => setcampo("cep", e.target.value)}
+                      maxLength={9}
+                      className={`w-full px-3 py-2 rounded-lg border-2 font-body text-sm text-salgado-dark placeholder-gray-300 transition-colors focus:outline-none bg-white ${
+                        erros.cep
+                          ? "border-red-400 focus:border-red-400"
+                          : "border-salgado-warm focus:border-brand-400"
+                      }`}
+                    />
+                    {erros.cep && (
+                      <p className="text-red-500 text-xs font-body">
+                        Campo obrigatório
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Rua */}
+                  <div className="flex flex-col gap-1">
+                    <label className="font-body text-xs font-semibold text-salgado-dark uppercase tracking-wide">
+                      Rua
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Nome da rua ou avenida"
+                      value={endereco.rua}
+                      onChange={(e) => setcampo("rua", e.target.value)}
+                      className={`w-full px-3 py-2 rounded-lg border-2 font-body text-sm text-salgado-dark placeholder-gray-300 transition-colors focus:outline-none bg-white ${
+                        erros.rua
+                          ? "border-red-400 focus:border-red-400"
+                          : "border-salgado-warm focus:border-brand-400"
+                      }`}
+                    />
+                    {erros.rua && (
+                      <p className="text-red-500 text-xs font-body">
+                        Campo obrigatório
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Número + Bairro lado a lado */}
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="flex flex-col gap-1">
+                      <label className="font-body text-xs font-semibold text-salgado-dark uppercase tracking-wide">
+                        Número
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Ex: 123"
+                        value={endereco.numero}
+                        onChange={(e) => setcampo("numero", e.target.value)}
+                        maxLength={10}
+                        className={`w-full px-3 py-2 rounded-lg border-2 font-body text-sm text-salgado-dark placeholder-gray-300 transition-colors focus:outline-none bg-white ${
+                          erros.numero
+                            ? "border-red-400 focus:border-red-400"
+                            : "border-salgado-warm focus:border-brand-400"
+                        }`}
+                      />
+                      {erros.numero && (
+                        <p className="text-red-500 text-xs font-body">
+                          Obrigatório
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                      <label className="font-body text-xs font-semibold text-salgado-dark uppercase tracking-wide">
+                        Bairro
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Nome do bairro"
+                        value={endereco.bairro}
+                        onChange={(e) => setcampo("bairro", e.target.value)}
+                        className={`w-full px-3 py-2 rounded-lg border-2 font-body text-sm text-salgado-dark placeholder-gray-300 transition-colors focus:outline-none bg-white ${
+                          erros.bairro
+                            ? "border-red-400 focus:border-red-400"
+                            : "border-salgado-warm focus:border-brand-400"
+                        }`}
+                      />
+                      {erros.bairro && (
+                        <p className="text-red-500 text-xs font-body">
+                          Obrigatório
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Pagamento */}
               <div className="bg-white rounded-2xl border border-salgado-warm p-4 shadow-sm space-y-3">
