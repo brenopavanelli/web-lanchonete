@@ -11,7 +11,7 @@ const FORMAS_PAGAMENTO = [
 
 const ENDERECO_INICIAL = { cep: "", rua: "", numero: "", bairro: "" };
 
-function formatarMensagem(itens, total, endereco, pagamento, observacoes, tipoEntrega) {
+function formatarMensagem(itens, total, endereco, pagamento, observacoes, tipoEntrega, frete, subtotal) {
   const linhaItens = itens
     .map(
       (item) =>
@@ -30,9 +30,13 @@ function formatarMensagem(itens, total, endereco, pagamento, observacoes, tipoEn
     `🛒 *Novo Pedido*\n\n` +
     `${linhaItens}\n\n` +
     `━━━━━━━━━━━━━━\n` +
-    `*Total: R$ ${total.toFixed(2).replace(".", ",")}*\n\n` +
+    (tipoEntrega === "entregar"
+      ? `🧾 Subtotal: R$ ${subtotal.toFixed(2).replace(".", ",")}\n` +
+        `🚚 Frete: R$ ${frete.toFixed(2).replace(".", ",")}\n` +
+        `*Total: R$ ${total.toFixed(2).replace(".", ",")}*\n\n`
+      : `*Total: R$ ${total.toFixed(2).replace(".", ",")}*\n\n`) +
     (observacoes.trim() ? `📝 *Observações:* ${observacoes}\n\n` : "") +
-    (tipoEntrega === "entrega"
+    (tipoEntrega === "entregar"
       ? `📍 *Endereço de Entrega*\n` +
         `CEP: ${endereco.cep}\n` +
         `Rua: ${endereco.rua}, nº ${endereco.numero}\n` +
@@ -87,10 +91,14 @@ export default function Carrinho({
   const [pagamento, setPagamento] = useState("");
   const [erros, setErros] = useState({});
 
-  const total = itens.reduce(
+  const TAXA_ENTREGA = 9.90;
+  const subtotal = itens.reduce(
     (acc, item) => acc + item.preco * item.quantidade,
     0,
   );
+  const frete = tipoEntrega === "entregar" ? TAXA_ENTREGA : 0;
+  const total = subtotal + frete;
+
   const totalItens = itens.reduce((acc, item) => acc + item.quantidade, 0);
 
   function setcampo(campo, valor) {
@@ -121,7 +129,10 @@ export default function Carrinho({
       pagamento,
       observacoes,
       tipoEntrega,
+      frete,
+      subtotal
     );
+    // console.log("Mensagem formatada:", mensagem); // Para depuração
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`;
     window.open(url, "_blank");
   }
@@ -403,32 +414,50 @@ export default function Carrinho({
         </div>
 
         {/* Rodapé fixo */}
-        {itens.length > 0 && (
-          <div className="border-t border-salgado-warm px-5 py-4 bg-white space-y-3 flex-shrink-0">
-            <div className="flex items-center justify-between">
-              <span className="font-body font-semibold text-gray-500">
-                Total
-              </span>
-              <span className="font-display font-bold text-salgado-dark text-2xl">
-                R$ {total.toFixed(2).replace(".", ",")}
-              </span>
+        {itens.length > 0 && (  
+          <>
+            <div className="border-t border-salgado-warm px-5 py-4 bg-white space-y-3 flex-shrink-0">
+              {tipoEntrega === "entregar" && (
+                <>
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-between">
+                    <span className="font-body font-semibold text-gray-500">Subtotal</span>
+                    <span className="font-body font-semibold text-salgado-dark text-base">R$ {subtotal.toFixed(2).replace(".", ",")}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="font-body font-semibold text-gray-500">Frete</span>
+                      <span className="font-body font-semibold text-salgado-dark text-base">R$ {frete.toFixed(2).replace(".", ",")}</span>
+                    </div>
+                  </div>
+                </>
+              )}
+              <div className={tipoEntrega === "entregar" ? "border-t border-salgado-warm pt-2" : ""}>
+                <div className="flex items-center justify-between">
+                  <span className="font-body font-bold text-gray-500 text-xl">
+                    Total
+                  </span>
+                  <span className="font-display font-bold text-salgado-dark text-2xl">
+                    R$ {total.toFixed(2).replace(".", ",")}
+                  </span>
+                </div>
+              </div>
+
+              <button
+                onClick={enviarWhatsApp}
+                className="w-full bg-green-500 hover:bg-green-600 active:scale-95 transition-all text-white font-body font-bold py-3.5 rounded-full flex items-center justify-center gap-2 shadow-md text-base"
+              >
+                <span className="text-xl">💬</span>
+                Enviar pedido pelo WhatsApp
+              </button>
+
+              <button
+                onClick={onLimpar}
+                className="w-full text-center text-sm text-gray-400 hover:text-red-500 font-body transition-colors py-1"
+              >
+                Limpar carrinho
+              </button>
             </div>
-
-            <button
-              onClick={enviarWhatsApp}
-              className="w-full bg-green-500 hover:bg-green-600 active:scale-95 transition-all text-white font-body font-bold py-3.5 rounded-full flex items-center justify-center gap-2 shadow-md text-base"
-            >
-              <span className="text-xl">💬</span>
-              Enviar pedido pelo WhatsApp
-            </button>
-
-            <button
-              onClick={onLimpar}
-              className="w-full text-center text-sm text-gray-400 hover:text-red-500 font-body transition-colors py-1"
-            >
-              Limpar carrinho
-            </button>
-          </div>
+          </>
         )}
       </div>
     </>
