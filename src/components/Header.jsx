@@ -11,17 +11,11 @@ export default function Header({ totalItens, totalPreco, onAbrirCarrinho }) {
       <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
 
         {/* Logo / Nome */}
-        <div className="flex items-center gap-2">
-          <span className="text-3xl">🥐</span>
-          <div>
-            <h1 className="font-display font-bold text-brand-300 text-xl leading-none">
-              Lanchonete
-            </h1>
-            <p className="text-brand-500 text-xs font-body">
-              Salgados & Lanches
-            </p>
-          </div>
-        </div>
+        <img
+          src="/images/logos/logo-horizontal.png"
+          alt="Rei do Salgado"
+          className="h-14 w-auto object-contain"
+        />
 
         {/* Botão Carrinho */}
         <button
