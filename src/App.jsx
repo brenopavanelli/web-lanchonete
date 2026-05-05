@@ -76,7 +76,11 @@ export default function App() {
               Monte seu pedido e receba em instantes! 🤤
             </p>
           </div>
-          <span className="text-6xl hidden sm:block">🥐</span>
+            <img
+            src="/images/logos/rei-do-salgado.png"
+            alt="Rei do Salgado"
+            className="w-16 h-16 object-contain hidden sm:block"
+            />
         </section>
 
         {/* Busca */}

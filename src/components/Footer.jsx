@@ -34,19 +34,15 @@ export default function Footer() {
 
           {/* ── Quem Somos ── */}
           <div className="sm:col-span-2 lg:col-span-1">
-            <div className="flex items-center gap-2 mb-3">
-              <span className="text-3xl">🥐</span>
-              <div>
-                <p className="font-display font-extrabold text-brand-300 text-lg leading-none">
-                  Dona Cida
-                </p>
-                <p className="font-body text-brand-500 text-xs">Salgados & Lanches</p>
-              </div>
+            <div className="mb-3">
+              <img
+                src="/images/logos/rei-do-salgado-horizontal.png"
+                alt="Rei do Salgado"
+                className="h-12 w-auto object-contain"
+              />
             </div>
             <p className="font-body text-sm text-brand-200 leading-relaxed">
-              Desde 1987, a Lanchonete Dona Cida leva sabor e carinho para
-              cada mesa. Salgados fresquinhos, feitos com ingredientes
-              selecionados e muito amor, do jeito que a tradição manda.
+              Desde 1987, o Rei do Salgado leva sabor e tradição para cada mesa. Salgados fresquinhos, feitos com ingredientes selecionados e muito amor — digno de um rei.
             </p>
             {/* Redes sociais */}
             <div className="flex gap-3 mt-4">
@@ -98,7 +94,7 @@ export default function Footer() {
                 <p className="flex items-center gap-2">
                   <span>✉️</span>
                   <a href="#" className="hover:text-brand-300 transition-colors">
-                    contato@donacida.com.br
+                    contato@reidosalgado.com.br
                   </a>
                 </p>
               </div>
@@ -120,7 +116,7 @@ export default function Footer() {
             <div className="mt-4 p-3 bg-salgado-deep/40 rounded-xl border border-salgado-deep">
               <p className="font-body text-xs text-brand-400 leading-relaxed">
                 Este site não armazena dados de pagamento. Todas as transações
-                são realizadas diretamente pelo WhatsApp.
+                são discutidas diretamente pelo WhatsApp.
               </p>
             </div>
           </div>
@@ -131,9 +127,9 @@ export default function Footer() {
       {/* Barra de copyright */}
       <div className="border-t border-salgado-deep">
         <div className="max-w-5xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs font-body text-brand-600">
-          <p>© {ANO_ATUAL} Lanchonete Dona Cida. Todos os direitos reservados.</p>
+          <p>© {ANO_ATUAL} Lanchonete Rei do Salgado. Todos os direitos reservados.</p>
           <p>
-            Feito com <span className="text-brand-400">♥</span> em São Paulo
+            Salgados dignos de um rei, entregues com tradição em São Paulo.
           </p>
         </div>
       </div>
