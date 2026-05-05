@@ -12,7 +12,7 @@ export default function Header({ totalItens, totalPreco, onAbrirCarrinho }) {
 
         {/* Logo / Nome */}
         <img
-          src="/images/logos/logo-horizontal.png"
+          src="/images/logos/rei-do-salgado-horizontal.png"
           alt="Rei do Salgado"
           className="h-14 w-auto object-contain"
         />
