@@ -12,7 +12,7 @@
 
 ## 📋 Sobre o Projeto
 
-O **Rei do Salgado** é um sistema web de pedidos desenvolvido como projeto acadêmico para a disciplina de Desenvolvimento Web. A aplicação simula o cardápio digital de uma lanchonete brasileira, permitindo que o cliente monte seu pedido, informe dados de entrega e envie o pedido diretamente para o WhatsApp do estabelecimento.
+O **Rei do Salgado** é um sistema web de pedidos desenvolvido como projeto acadêmico para a disciplina de Gerencia e Projetos no curso de Análise e Desenvolvimento de Sistemas na Fatec Taquaritinga. A aplicação simula o cardápio digital de uma lanchonete brasileira, permitindo que o cliente monte seu pedido, informe dados de entrega e envie o pedido diretamente para o WhatsApp do estabelecimento.
 
 ### Funcionalidades
 
@@ -59,6 +59,7 @@ O projeto utiliza uma identidade visual quente e acolhedora, com paleta de cores
 rei-do-salgado/
 ├── public/
 │   ├── favicon/
+│           └── favicon.png
 │   └── images/
 │       ├── logos/
 │       │   ├── rei-do-salgado.png
@@ -72,7 +73,6 @@ rei-do-salgado/
 │   │   ├── CardProduto.jsx
 │   │   ├── Carrinho.jsx
 │   │   └── Footer.jsx
-│   ├── containers/
 │   ├── data/
 │   │   └── produtos.js
 │   ├── services/
@@ -99,13 +99,13 @@ rei-do-salgado/
 
 ```bash
 # Clone o repositório
-git clone https://github.com/seu-usuario/rei-do-salgado.git
+git clone https://github.com/brenopavanelli/web-lanchonete.git
 
 # Acesse a pasta do projeto
-cd rei-do-salgado
+cd web-lanchonete
 
 # Instale as dependências
-npm install
+npm install i
 ```
 
 ### Variáveis de Ambiente
@@ -202,7 +202,7 @@ Por favor, confirme meu pedido! 😊
 
 Desenvolvido por **Breno Pavanelli dos Santos**
 
-[![GitHub](https://img.shields.io/badge/GitHub-seu--usuario-181717?logo=github)](https://github.com/seu-usuario)
+[![GitHub](https://img.shields.io/badge/GitHub-seu--usuario-181717?logo=github)](https://github.com/brenopavanelli)
 
 ---
 
