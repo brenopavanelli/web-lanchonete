@@ -59,7 +59,7 @@ O projeto utiliza uma identidade visual quente e acolhedora, com paleta de cores
 rei-do-salgado/
 ├── public/
 │   ├── favicon/
-│           └── favicon.png
+│   │       └── favicon.png
 │   └── images/
 │       ├── logos/
 │       │   ├── rei-do-salgado.png
