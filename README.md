@@ -12,16 +12,16 @@
 
 ## 📋 Sobre o Projeto
 
-O **Rei do Salgado** é um sistema web de pedidos desenvolvido como projeto acadêmico para a disciplina de Gerencia e Projetos no curso de Análise e Desenvolvimento de Sistemas na Fatec Taquaritinga. A aplicação simula o cardápio digital de uma lanchonete brasileira, permitindo que o cliente monte seu pedido, informe dados de entrega e envie o pedido diretamente para o WhatsApp do estabelecimento.
+O **Rei do Salgado** é um sistema web de pedidos desenvolvido como projeto acadêmico para a disciplina de Gerência de Projetos, do curso de Análise e Desenvolvimento de Sistemas da Fatec Taquaritinga. O aplicativo simula o cardápio digital de uma lanchonete brasileira, permitindo que o cliente monte seu pedido, informe os dados de entrega e envie o pedido diretamente para o WhatsApp do estabelecimento.
 
 ### Funcionalidades
 
 - Vitrine de produtos com filtro por categoria e busca por nome
 - Carrinho de compras com controle de quantidade por item
 - Seleção entre retirada no local ou entrega com cálculo de frete
-- Formulário de endereço de entrega com validação de campos
-- Seleção de forma de pagamento (Pix, Débito, Crédito, Dinheiro)
-- Campo de observações livres
+- Formulário de entrega com validação de campos
+- Formas de pagamento (Pix, Débito, Crédito, Dinheiro)
+- Campo de observações: para anotações livres no pedido 
 - Geração automática de mensagem formatada para WhatsApp
 - Layout responsivo para desktop e dispositivos móveis
 
