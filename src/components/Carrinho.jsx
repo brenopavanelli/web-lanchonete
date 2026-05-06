@@ -32,7 +32,7 @@ function formatarMensagem(itens, total, endereco, pagamento, observacoes, tipoEn
     `━━━━━━━━━━━━━━\n` +
     (tipoEntrega === "entregar"
       ? `🧾 Subtotal: R$ ${subtotal.toFixed(2).replace(".", ",")}\n` +
-        `🚚 Frete: R$ ${frete.toFixed(2).replace(".", ",")}\n` +
+        `🚚 Frete: R$ ${frete.toFixed(2).replace(".", ",")}\n\n` +
         `*Total: R$ ${total.toFixed(2).replace(".", ",")}*\n\n`
       : `*Total: R$ ${total.toFixed(2).replace(".", ",")}*\n\n`) +
     (observacoes.trim() ? `📝 *Observações:* ${observacoes}\n\n` : "") +

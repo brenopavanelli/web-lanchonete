@@ -76,7 +76,6 @@ export default function Footer() {
               <LinkFooter>Salgados Assados</LinkFooter>
               <LinkFooter>Lanches</LinkFooter>
               <LinkFooter>Bebidas</LinkFooter>
-              <LinkFooter>Promoções</LinkFooter>
             </nav>
           </div>
 
