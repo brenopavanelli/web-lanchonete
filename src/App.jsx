@@ -12,7 +12,6 @@ export default function App() {
   const [categoriaAtiva, setCategoriaAtiva] = useState("Todos");
   const [busca, setBusca] = useState("");
 
-  // ── Carrinho ────────────────────────────────────────────────
   function adicionarAoCarrinho(produto) {
     setCarrinho((prev) => {
       const existe = prev.find((i) => i.id === produto.id);
@@ -40,14 +39,12 @@ export default function App() {
     setCarrinho([]);
   }
 
-  // ── Totais ────────────────────────────────────────────────
   const totalItens = carrinho.reduce((acc, i) => acc + i.quantidade, 0);
 
   function qtdNoCArinho(id) {
     return carrinho.find((i) => i.id === id)?.quantidade ?? 0;
   }
 
-  // ── Filtros ────────────────────────────────────────────────
   const produtosFiltrados = useMemo(() => {
     return produtos.filter((p) => {
       const porCategoria =
@@ -73,7 +70,7 @@ export default function App() {
               Fresquinhos e quentinhos
             </h2>
             <p className="font-body text-brand-200 mt-1 text-sm sm:text-base">
-              Monte seu pedido e receba em instantes! 🤤
+              Monte seu pedido da sua maneira! 🤤
             </p>
           </div>
             <img

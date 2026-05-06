@@ -1,7 +1,3 @@
-// src/data/produtos.js
-// ✏️ Edite este arquivo para adicionar/remover produtos reais
-// Substitua os campos imageUrl por fotos reais dos seus produtos
-
 export const categorias = [
   "Todos",
   "Salgados Fritos",

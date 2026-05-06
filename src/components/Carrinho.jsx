@@ -47,7 +47,6 @@ function formatarMensagem(itens, total, endereco, pagamento, observacoes, tipoEn
   );
 }
 
-// Campo reutilizável
 function Campo({
   label,
   id,
@@ -132,7 +131,6 @@ export default function Carrinho({
       frete,
       subtotal
     );
-    // console.log("Mensagem formatada:", mensagem); // Para depuração
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`;
     window.open(url, "_blank");
   }

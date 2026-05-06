@@ -1,11 +1,5 @@
-// src/components/Header.jsx
-import { useState } from "react";
+export default function Header({ totalItens, onAbrirCarrinho }) {
 
-export default function Header({ totalItens, totalPreco, onAbrirCarrinho }) {
-  const [badgeAnimado, setBadgeAnimado] = useState(false);
-
-  // chamado pelo pai quando totalItens muda
-  // usamos key trick no badge para reativar animação
   return (
     <header className="sticky top-0 z-50 bg-salgado-dark shadow-lg">
       <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">

@@ -1,5 +1,3 @@
-// src/components/CardProduto.jsx
-
 export default function CardProduto({ produto, quantidadeNoCarrinho, onAdicionar, onRemover }) {
   const { nome, descricao, preco, imageUrl, disponivel } = produto;
 
