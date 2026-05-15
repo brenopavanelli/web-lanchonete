@@ -1,4 +1,5 @@
 // src/components/Footer.jsx
+import { Link } from "react-router-dom";
 
 const ANO_ATUAL = new Date().getFullYear();
 
@@ -109,7 +110,7 @@ export default function Footer() {
           <div>
             <TituloSecao>📄 Informações</TituloSecao>
             <nav className="space-y-2">
-              <LinkFooter>Quem Somos</LinkFooter>
+              <LinkFooter><Link to="/quem-somos">Quem Somos</Link></LinkFooter>
               <LinkFooter>Trabalhe Conosco</LinkFooter>
             </nav>
             <div className="mt-4 p-3 bg-salgado-deep/40 rounded-xl border border-salgado-deep">
