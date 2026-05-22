@@ -3,10 +3,10 @@ import Footer from "../components/Footer";
 
 export default function PaginaQuemSomos() {
   return (
-    <div>
+    <div> 
       <Header />
-      <div className="min-h-screen bg-salgado-light">
-      <p>Quem Somos — em construção</p>
+        <div className="min-h-screen bg-salgado-light">
+        <p>Quem Somos — em construção</p>
       </div>
       <Footer />
     </div>
