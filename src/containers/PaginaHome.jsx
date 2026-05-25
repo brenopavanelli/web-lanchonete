@@ -1,47 +1,26 @@
-// src/containers/PaginaHome.jsx
-import { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
 import { produtos, categorias } from "../data/produtos";
+import { useCarrinho } from "../contexts/CarrinhoContext";
 import Header from "../components/Header";
 import CardProduto from "../components/Cardproduto";
 import Carrinho from "../components/Carrinho";
 import Footer from "../components/Footer";
 
 export default function PaginaHome() {
-  const [carrinho, setCarrinho] = useState([]);
-  const [carrinhoAberto, setCarrinhoAberto] = useState(false);
+  const {
+    carrinho,
+    carrinhoAberto,
+    setCarrinhoAberto,
+    adicionarAoCarrinho,
+    removerDoCarrinho,
+    limparCarrinho,
+    totalItens,
+  } = useCarrinho();
+
   const [categoriaAtiva, setCategoriaAtiva] = useState("Todos");
   const [busca, setBusca] = useState("");
 
-  function adicionarAoCarrinho(produto) {
-    setCarrinho((prev) => {
-      const existe = prev.find((i) => i.id === produto.id);
-      if (existe) {
-        return prev.map((i) =>
-          i.id === produto.id ? { ...i, quantidade: i.quantidade + 1 } : i
-        );
-      }
-      return [...prev, { ...produto, quantidade: 1 }];
-    });
-  }
-
-  function removerDoCarrinho(id) {
-    setCarrinho((prev) => {
-      const item = prev.find((i) => i.id === id);
-      if (!item) return prev;
-      if (item.quantidade === 1) return prev.filter((i) => i.id !== id);
-      return prev.map((i) =>
-        i.id === id ? { ...i, quantidade: i.quantidade - 1 } : i
-      );
-    });
-  }
-
-  function limparCarrinho() {
-    setCarrinho([]);
-  }
-
-  const totalItens = carrinho.reduce((acc, i) => acc + i.quantidade, 0);
-
-  function qtdNoCArinho(id) {
+  function qtdNoCarrinho(id) {
     return carrinho.find((i) => i.id === id)?.quantidade ?? 0;
   }
 
@@ -79,9 +58,7 @@ export default function PaginaHome() {
         </section>
 
         <div className="relative">
-          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">
-            🔍
-          </span>
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">🔍</span>
           <input
             type="text"
             placeholder="Buscar salgado..."
@@ -119,7 +96,7 @@ export default function PaginaHome() {
               <div key={produto.id} style={{ animationDelay: `${index * 60}ms` }}>
                 <CardProduto
                   produto={produto}
-                  quantidadeNoCarrinho={qtdNoCArinho(produto.id)}
+                  quantidadeNoCarrinho={qtdNoCarrinho(produto.id)}
                   onAdicionar={adicionarAoCarrinho}
                   onRemover={removerDoCarrinho}
                 />
