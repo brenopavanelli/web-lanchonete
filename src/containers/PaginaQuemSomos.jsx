@@ -15,13 +15,13 @@ export default function PaginaQuemSomos() {
   } = useCarrinho();
 
   return (
-    <div className="min-h-screen bg-salgado-light">
+    <div className="min-h-screen bg-salgado-light flex flex-col">
       <Header
         totalItens={totalItens}
         onAbrirCarrinho={() => setCarrinhoAberto(true)}
       />
 
-      <main className="max-w-5xl mx-auto px-4 py-6">
+      <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-6">
         <p>Quem Somos — em construção</p>
       </main>
 
