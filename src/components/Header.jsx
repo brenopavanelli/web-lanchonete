@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Header({ totalItens, onAbrirCarrinho }) {
 
   return (
@@ -5,11 +7,13 @@ export default function Header({ totalItens, onAbrirCarrinho }) {
       <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
 
         {/* Logo / Nome */}
-        <img
-          src="/images/logos/rei-do-salgado-horizontal.png"
-          alt="Rei do Salgado"
-          className="h-14 w-auto object-contain"
-        />
+        <Link to="/">
+          <img
+            src="/images/logos/rei-do-salgado-horizontal.png"
+            alt="Rei do Salgado"
+            className="h-14 w-auto object-contain"
+          />
+        </Link>
 
         {/* Botão Carrinho */}
         <button

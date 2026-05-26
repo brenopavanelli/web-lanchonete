@@ -36,11 +36,13 @@ export default function Footer() {
           {/* ── Quem Somos ── */}
           <div className="sm:col-span-2 lg:col-span-1">
             <div className="mb-3">
-              <img
-                src="/images/logos/rei-do-salgado-horizontal.png"
-                alt="Rei do Salgado"
-                className="h-12 w-auto object-contain"
-              />
+              <Link to="/">
+                <img
+                  src="/images/logos/rei-do-salgado-horizontal.png"
+                  alt="Rei do Salgado"
+                  className="h-12 w-auto object-contain"
+                />
+              </Link>
             </div>
             <p className="font-body text-sm text-brand-200 leading-relaxed">
               Desde 1987, o Rei do Salgado leva sabor e tradição para cada mesa. Salgados fresquinhos, feitos com ingredientes selecionados e muito amor — digno de um rei.
@@ -68,7 +70,7 @@ export default function Footer() {
           <div>
             <TituloSecao>🗺️ Mapa do Site</TituloSecao>
             <nav className="space-y-2">
-              <LinkFooter>Cardápio</LinkFooter>
+              <LinkFooter><Link to="/">Cardápio</Link></LinkFooter>
               <LinkFooter>Salgados Fritos</LinkFooter>
               <LinkFooter>Salgados Assados</LinkFooter>
               <LinkFooter>Lanches</LinkFooter>
